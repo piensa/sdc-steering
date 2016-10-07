@@ -5,7 +5,7 @@
 # You may obtain a copy of the License at
 #
 #     http://www.apache.org/licenses/LICENSE-2.0
-# ==============================================================================
+# =============================================================================
 
 from __future__ import print_function
 from cv_bridge import CvBridge, CvBridgeError
@@ -94,8 +94,8 @@ def write_example(writer, bridge, image_msg, steering_msg, image_fmt='png'):
         steering_dict = to_steering_dict(steering_msg)
         feature_dict.update(steering_dict)
         example = tf.train.Example(
-                      features=tf.train.Features(feature=feature_dict)
-                  )
+                    features=tf.train.Features(feature=feature_dict)
+                    )
         writer.write(example)
 
     except CvBridgeError as e:
@@ -114,8 +114,8 @@ class ShardWriter():
         self._counter = 0
 
     def _update_writer(self):
-        if not self._writer or \
-          self._shard_counter >= self.num_entries_per_shard:
+        shard_check = self._shard_counter >= self.num_entries_per_shard
+        if not self._writer or shard_check:
             shard = self._counter // self.num_entries_per_shard
             assert(shard <= self.num_shards)
             output_filename = '%s-%.5d-of-%.5d' % (self.name, shard,
@@ -138,8 +138,8 @@ class ShardWriter():
 
 def main():
     parser = argparse.ArgumentParser(
-                 description='Convert rosbag to tensorflow sharded records.'
-             )
+                description='Convert rosbag to tensorflow sharded records.'
+                )
     parser.add_argument('-o', '--outdir', type=str, nargs='?',
                         default='/output', help='Output folder')
     parser.add_argument('-b', '--bagfile', type=str, nargs='?',
