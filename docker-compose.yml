@@ -5,9 +5,9 @@ services:
   # piensa/deeplearning has jupyter, ros, tensorflow and keras.
   jupyter:
     build: .
-  volumes:
-    - '.:/usr/src/app'
-  command: jupyter notebook
-  ports:
-    - "8888:8888"
+    volumes:
+      - '.:/usr/src/app'
+    command: 'jupyter notebook'
+    ports:
+      - "8888:8888"
 
