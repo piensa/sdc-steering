@@ -15,7 +15,7 @@ setup(
     author_email='hello@piensa.co',
     url='https://github.com/piensa/sdc-steering',
     download_url='https://github.com/piensa/sdc-steering',
-    description='Self Driving Car-Challenge #2',
+    description='sdc-Challenge2',
     long_description=(read('README.md')),
     classifiers=[
         'Development Status :: 1 - Planning',
