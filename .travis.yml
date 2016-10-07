@@ -31,3 +31,6 @@ script:
 branches:
   only:
     - master
+
+notifications:
+  slack: piensalabs:UKmwgEC9rEHl9i4ypbSGiIC2
