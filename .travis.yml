@@ -23,7 +23,7 @@ install:
 
 before_script:
   - flake8 steering
-  - docker-compose up
+  - docker-compose up -d
 
 script:
   - pytest
