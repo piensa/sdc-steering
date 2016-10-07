@@ -7,7 +7,7 @@ services:
     build: .
     volumes:
       - '.:/usr/src/app'
-    command: 'jupyter notebook'
+    command: 'jupyter notebook --ip=0.0.0.0 --no-browser'
     ports:
       - "8888:8888"
 
