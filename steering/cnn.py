@@ -16,7 +16,7 @@ ARCHITECTURE:
     8. DenseLayer: 1164
     9. DenseLayer: 100
     10. DenseLayer: 50
-    11. DenseLayer: 10        
+    11. DenseLayer: 10
     12. DenseLayer: 1
 '''
 
@@ -24,8 +24,8 @@ from __future__ import print_function
 from keras.datasets import cifar10
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
-from keras.layers import Dense, Dropout, Activation, Flatten
-from keras.layers import Convolution2D, MaxPooling2D
+from keras.layers import Dense, Activation, Flatten
+from keras.layers import Convolution2D
 from keras.optimizers import SGD
 from keras.utils import np_utils
 
@@ -88,7 +88,7 @@ model.add(Dense(100))
 # 10. DenseLayer: 50
 model.add(Dense(50))
 
-# 11. DenseLayer: 10        
+# 11. DenseLayer: 10
 model.add(Dense(5))
 
 # Layer output
