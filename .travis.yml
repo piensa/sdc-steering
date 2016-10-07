@@ -16,7 +16,7 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
-  - sudo apt-get install -y python-flake8 pytest
+  - sudo apt-get install -y python-flake8 python-pytest
 
 install:
   - docker-compose build
