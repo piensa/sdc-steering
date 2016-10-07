@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+
+  # piensa/deeplearning has jupyter, ros, tensorflow and keras.
+  jupyter:
+    image: piensa/deeplearning
+
