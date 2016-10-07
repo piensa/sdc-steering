@@ -24,8 +24,8 @@ from __future__ import print_function
 from keras.datasets import cifar10
 from keras.preprocessing.image import ImageDataGenerator
 from keras.models import Sequential
-from keras.layers import Dense, Activation, Flatten
-from keras.layers import Convolution2D 
+from keras.layers import Dense, Dropout, Activation, Flatten
+from keras.layers import Convolution2D, MaxPooling2D
 from keras.optimizers import SGD
 from keras.utils import np_utils
 
@@ -53,37 +53,27 @@ Y_test = np_utils.to_categorical(y_test, nb_classes)
 model = Sequential()
 
 # 2. ConvLayer: 2x2 stride, 5x5 kernel, 3 kernels.
-model.add(Convolution2D(nb_filter=3,
-                        nb_row=5,
-                        nb_column=5,
+model.add(Convolution2D(3, 5, 5,
                         border_mode='same',
                         subsample=(2, 2),
                         input_shape=X_train.shape[1:]))
 
 # 3. ConvLayer: 2x2 stride, 5x5 kernel, 24 kernels.
-model.add(Convolution2D(nb_filter=24,
-                        nb_row=5,
-                        nb_column=5,
+model.add(Convolution2D(24, 5, 5,
                         border_mode='same',
                         subsample=(2, 2)))
 
 # 4. ConvLayer: 2x2 stride, 5x5 kernel, 36 kernels.
-model.add(Convolution2D(nb_filter=36,
-                        nb_row=5,
-                        nb_column=5,
+model.add(Convolution2D(36, 5, 5,
                         border_mode='same',
                         subsample=(2, 2)))
 
 # 5. ConvLayer: 3x3 kernel, 48 kernels, no stride.
-model.add(Convolution2D(nb_filter=48,
-                        nb_row=3,
-                        nb_column=3,
+model.add(Convolution2D(48, 3, 3,
                         border_mode='same'))
 
 # 6. ConvLayer: 3x3 kernel, 64 kernels, no stride.
-model.add(Convolution2D(nb_filter=64,
-                        nb_row=3,
-                        nb_column=3,
+model.add(Convolution2D(64, 3, 3,
                         border_mode='same'))
 
 # 7. FlattenLayer.
