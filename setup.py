@@ -9,13 +9,13 @@ def read(*rnames):
         return ff.read()
 
 setup(
-    name=__description__,
+    name='sdc',
     version=__version__,
     author='Piensa Labs',
     author_email='hello@piensa.co',
     url='https://github.com/piensa/sdc-steering',
     download_url='https://github.com/piensa/sdc-steering',
-    description='sdc-Challenge2',
+    description='Self Driving Car - Challenge #2',
     long_description=(read('README.md')),
     classifiers=[
         'Development Status :: 1 - Planning',
