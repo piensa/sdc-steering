@@ -2,7 +2,7 @@ import os
 import keras
 import tensorflow
 
-SAMPLE_DATA='/data/data/sample.bag'
+SAMPLE_DATA = '/data/data/sample.bag'
 
 
 def test_versions():
