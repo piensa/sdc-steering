@@ -32,4 +32,8 @@ branches:
     - master
 
 notifications:
-  slack: piensalabs:UKmwgEC9rEHl9i4ypbSGiIC2
+  slack:
+    rooms:
+      - piensalabs:UKmwgEC9rEHl9i4ypbSGiIC2
+    on_success: change
+    on_failure: always
