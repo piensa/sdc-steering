@@ -243,11 +243,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     bag_to_tf(
-          rosbag_file=args.bagfile,
-          save_dir=args.outdir,
-          img_format=args.img_format,
-          debug=args.debug,
-          separate_streams=args.separate,
-          # FIXME detect from bag_info (takes more time)
-          num_images=args.num_images
-          )
+        rosbag_file=args.bagfile,
+        save_dir=args.outdir,
+        img_format=args.img_format,
+        debug=args.debug,
+        separate_streams=args.separate,
+        # FIXME detect from bag_info (takes more time)
+        num_images=args.num_images
+    )
