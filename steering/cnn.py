@@ -88,11 +88,12 @@ model.add(Dense(100))
 # 10. DenseLayer: 50
 model.add(Dense(50))
 
-# 11. DenseLayer: 10
-model.add(Dense(5))
+# 11. DenseLayer: 10.Provisionally using 10
+model.add(Dense(10))
 
-# Layer output
-model.add(Activation('linear'))
+# Layer output. For real data change to linear activation
+#model.add(Activation('linear'))
+model.add(Activation('softmax'))
 
 # let's train the model using SGD + momentum (how original).
 # TODO: check for values.
@@ -105,7 +106,6 @@ X_train = X_train.astype('float32')
 X_test = X_test.astype('float32')
 X_train /= 255
 X_test /= 255
-
 
 # this will do preprocessing and realtime data augmentation
 datagen = ImageDataGenerator(
