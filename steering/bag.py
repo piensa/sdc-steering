@@ -104,6 +104,7 @@ def write_example(writer, bridge, image_msg, steering_msg, image_fmt='png'):
 
 class ShardWriter():
     def __init__(self, outdir, name, num_entries, num_shards=256):
+        assert(num_entries > num_shards)
         self.num_entries = num_entries
         self.outdir = outdir
         self.name = name
@@ -114,8 +115,8 @@ class ShardWriter():
         self._counter = 0
 
     def _update_writer(self):
-        shard_check = self._shard_counter >= self.num_entries_per_shard
-        if not self._writer or shard_check:
+        shard_check = self._shard_counter < self.num_entries_per_shard
+        if self._writer is None or shard_check is False:
             shard = self._counter // self.num_entries_per_shard
             assert(shard <= self.num_shards)
             output_filename = '%s-%.5d-of-%.5d' % (self.name, shard,
@@ -136,34 +137,15 @@ class ShardWriter():
             sys.stdout.flush()
 
 
-def main():
-    parser = argparse.ArgumentParser(
-        description='Convert rosbag to tensorflow sharded records.'
-    )
-    parser.add_argument('-o', '--outdir', type=str, nargs='?',
-                        default='/output', help='Output folder')
-    parser.add_argument('-b', '--bagfile', type=str, nargs='?',
-                        default='/data/dataset.bag', help='Input bag file')
-    parser.add_argument('-f', '--img_format', type=str, nargs='?',
-                        default='jpg', help='Image encode format, png or jpg')
-    parser.add_argument('-n', '--num_images', type=int, nargs='?',
-                        default=15212, help='Number of images per camera')
-    parser.add_argument('-s', '--separate', dest='separate',
-                        action='store_true', help='Separate sets per camera')
-    parser.add_argument('-d', dest='debug', action='store_true',
-                        help='Debug print enable')
-    parser.set_defaults(separate=False)
-    parser.set_defaults(debug=False)
-    args = parser.parse_args()
+def bag_to_tf(rosbag_file='/data/data/sample.bag',
+              save_dir='/output',
+              img_format='jpg',
+              debug=False,
+              separate_streams=True,
+              num_images=8,
+              num_shards=2):
 
-    img_format = args.img_format
-    save_dir = args.outdir
-    rosbag_file = args.bagfile
-    debug_print = args.debug
-    separate_streams = args.separate
-    # FIXME detect from bag_info (takes more time)
-    num_images = args.num_images
-
+    debug_print = debug
     bridge = CvBridge()
 
     filter_topics = [LEFT_CAMERA_TOPIC,
@@ -176,17 +158,20 @@ def main():
         center_outdir = get_outdir(save_dir, "center")
         right_outdir = get_outdir(save_dir, "right")
         shard_writer_left = ShardWriter(left_outdir,
-                                        'left', num_images, num_shards=32)
+                                        'left', num_images,
+                                        num_shards=num_shards)
         shard_writer_center = ShardWriter(center_outdir,
-                                          'center', num_images, num_shards=32)
+                                          'center', num_images,
+                                          num_shards=num_shards)
         shard_writer_right = ShardWriter(right_outdir,
-                                         'right', num_images, num_shards=32)
+                                         'right', num_images,
+                                         num_shards=num_shards)
     else:
         single_outdir = get_outdir(save_dir, "combined")
         shard_writer = ShardWriter(single_outdir,
                                    'combined',
                                    3*num_images,
-                                   num_shards=128)
+                                   num_shards=3*num_shards)
 
     latest_steering_msg = None
     example_count = 0
@@ -230,9 +215,39 @@ def main():
 
                 latest_steering_msg = msg
 
-    print("Completed processing %d images to TF examples." % example_count)
-    sys.stdout.flush()
+    if debug_print:
+        print("Completed processing %d images to TF examples." % example_count)
+        print("They are available on %s in %s format" % (
+              save_dir, img_format)
+              )
 
 
 if __name__ == '__main__':
-    main()
+    parser = argparse.ArgumentParser(
+        description='Convert rosbag to tensorflow sharded records.'
+    )
+    parser.add_argument('-o', '--outdir', type=str, nargs='?',
+                        default='/output', help='Output folder')
+    parser.add_argument('-b', '--bagfile', type=str, nargs='?',
+                        default='/data/dataset.bag', help='Input bag file')
+    parser.add_argument('-f', '--img_format', type=str, nargs='?',
+                        default='jpg', help='Image encode format, png or jpg')
+    parser.add_argument('-n', '--num_images', type=int, nargs='?',
+                        default=15212, help='Number of images per camera')
+    parser.add_argument('-s', '--separate', dest='separate',
+                        action='store_true', help='Separate sets per camera')
+    parser.add_argument('-d', dest='debug', action='store_true',
+                        help='Debug print enable')
+    parser.set_defaults(separate=False)
+    parser.set_defaults(debug=False)
+    args = parser.parse_args()
+
+    bag_to_tf(
+          rosbag_file=args.bagfile,
+          save_dir=args.outdir,
+          img_format=args.img_format,
+          debug=args.debug,
+          separate_streams=args.separate,
+          # FIXME detect from bag_info (takes more time)
+          num_images=args.num_images
+          )
