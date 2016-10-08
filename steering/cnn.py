@@ -92,7 +92,7 @@ model.add(Dense(50))
 model.add(Dense(10))
 
 # Layer output. For real data change to linear activation
-#model.add(Activation('linear'))
+# model.add(Activation('linear'))
 model.add(Activation('softmax'))
 
 # let's train the model using SGD + momentum (how original).
