@@ -8,3 +8,5 @@ docker-compose up
 
 Navigate to http://localhost:8888/ and you'll find ipython notebooks there to teach you how to use the framework.
 
+# Getting data
+There is a docker image with sample data, it will also contain commands to fetch the rest of the data.

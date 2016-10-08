@@ -10,4 +10,15 @@ services:
     command: 'jupyter notebook --ip=0.0.0.0 --no-browser'
     ports:
       - "8888:8888"
+    volumes_from:
+      - sdcdata
 
+  sdcdata:
+    image: piensa/sdcdata
+    container_name: sdc_data
+    command: /bin/true
+    volumes:
+      - /data
+
+volumes:
+  sdc_data:
